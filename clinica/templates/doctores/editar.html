@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %} Editar un Doctor {% endblock %}
+{% block contenido %}
+<div class="card">
+    <div class="card-header">Editar información de un Doctor</div>
+    <div class="card-body">
+        <h4 class="card-title">Datos del Doctor</h4>
+
+        {% include 'doctores/form.html' %}
+    </div>
+    <div class="card-footer text-muted">
+
+    </div>
+{% endblock %}

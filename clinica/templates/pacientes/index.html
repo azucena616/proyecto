@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %} Lista de pacientes {% endblock %}
+{% block contenido %}
+
+<div class="card">      
+    <div class="card-header">
+        <a
+            name=""
+            id=""
+            class="btn btn-success"
+            href="{% url 'crear' %}"
+            role="button"
+            >Agregar un paciente</a
+        >
+        
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">Pacientes</h4>
+        <div
+            class="table-responsive"
+        >
+            <table
+                class="table table-dark table-striped table-hover"
+            >
+                <thead>
+                    <tr>
+                        <th scope="col">Folio</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Telefomo</th>
+                        <th scope="col">Correo </th>
+                        <th scope="col">Adeudo </th>
+                        <th scope="col">Acciones </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for  paciente in pacientes %}
+                    <tr class="">  
+                        <td>{{ paciente.folio_paciente }}</td>
+                        <td>{{ paciente.nombre_paciente }}</td>
+                        <td>{{ paciente.telefono_paciente }}</td> 
+                        <td>{{ paciente.correo_paciente }}</td>
+                        <td>{{ paciente.adeudo }}</td> 
+                        <td><a
+                            name=""
+                            id=""
+                            class="btn btn-light"
+                            href="{% url 'editar' paciente.folio_paciente %}"
+                            role="button"
+                            >Editar</a>
+                          <a
+                            name=""
+                            id=""
+                            class="btn btn-danger"
+                            href="{% url 'eliminar' paciente.folio_paciente %}"
+                            role="button"
+                            >Borrar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+
+    </div>
+    <div class="card-footer text-muted">
+        
+    </div>
+</div>
+
+{% endblock %}

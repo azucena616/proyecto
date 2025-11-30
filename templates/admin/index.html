@@ -1,0 +1,12 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+    <!-- Botón personalizado arriba -->
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'respaldos' %}" class="button" style="padding:10px 15px; background:#4774b8; color:white; border-radius:5px;">
+            Respaldos
+        </a>
+    </div>
+
+    {{ block.super }}  {# Muestra el contenido normal del admin #}
+{% endblock %}

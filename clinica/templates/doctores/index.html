@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %} Mostrar Doctores {% endblock %}
+{% block contenido %}
+<div class="card">
+    <div class="card-header">
+        <a
+            name=""
+            id=""
+            class="btn btn-success"
+            href="{% url 'crear_doctor' %}"
+            role="button"
+            >Registrar Doctor</a
+        >
+        </div>
+    <div class="card-body">
+        <h4 class="card-title">Doctores</h4>
+        <div
+            class="table-responsive"
+        >
+            <table
+                class="table table-dark table-striped table-hover"
+            >
+                <thead>
+                    <tr>
+                        <th scope="col">Cedula</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Especialidad</th>
+                        <th scope="col">Turno</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="">
+                        <td>843597</td>
+                        <td>Marcos Torres</td>
+                        <td>Neurologo</td>
+                        <td>Matutino</td>
+                        <td>3315579162</td>
+                        <td>amfs@gmail.com</td>
+                        <td><a
+                            name=""
+                            id=""
+                            class="btn btn-light"
+                            href="{% url 'editar_doctor' %}"
+                            role="button"
+                            >Editar</a
+                        >
+                          <a
+                            name=""
+                            id=""
+                            class="btn btn-danger"
+                            href="#"
+                            role="button"
+                            >Borrar</a
+                        > </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        
+    </div>
+    <div class="card-footer text-muted"></div>
+</div>
+
+{% endblock %}
