@@ -23,7 +23,6 @@ def crear(request):
     if formulario.is_valid():
         formulario.save()
         return redirect('pacientes')
-        #formulario = PacienteForm()   Limpiar el formulario después de guardar
     return render(request, 'pacientes/crear.html', {'formulario': formulario})
 
 def editar(request, folio_paciente):
@@ -69,10 +68,10 @@ def crear_cita(request):
         ).exists()
 
         if existe:
-            messages.error(request, "El doctor ya tiene una cita en ese horario.")
-            return redirect("citas")   # Ajusta según tu URL
+            messages.error(request, "El doctor ya tiene una cita en ese horario")
+            return redirect("citas")   #agregr la url de citas
 
-        # 2. Si llegamos aquí, la cita se puede crear
+        # Crear la cita si no existe conflicto
         Cita.objects.create(
             cedula_doctor_id=doctor,
             folio_paciente_id=paciente,
