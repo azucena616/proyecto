@@ -100,3 +100,19 @@ class Cita(models.Model):
     def __str__(self):
         return f"Cita {self.num_cita} - Doctor: {self.cedula_doctor.nombre_doc} - Paciente: {self.folio_paciente.nombre_paciente}"
 
+class HistorialCitas(models.Model):
+    id = models.AutoField(primary_key=True)
+    cedula_doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, verbose_name="Doctor")
+    folio_paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, verbose_name="Paciente")
+    fecha = models.DateField()
+    hora = models.TimeField()
+    accion = models.CharField(max_length=50)  # Ejemplo: "Cita creada", "Cita modificada", "Cita cancelada"
+    created_at = models.DateTimeField(auto_now_add=True)  # Guarda automáticamente cuándo se registró
+
+    class Meta:
+        verbose_name = "Historial de cita"
+        verbose_name_plural = "Historial de citas"
+
+    def __str__(self):
+        return f"{self.accion} - Doctor: {self.cedula_doctor.nombre_doc} - Paciente: {self.folio_paciente.nombre_paciente} - {self.fecha} {self.hora}"
+
