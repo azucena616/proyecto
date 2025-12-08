@@ -3,11 +3,11 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 import datetime
 import subprocess
-from django.urls import path
 from django.contrib import messages
-from django.http import HttpResponseRedirect
 from .forms import CitaAdminForm
 from clinica.models import Doctor, Paciente, Cita, HistorialCitas
+from import_export.admin import ImportExportModelAdmin
+from .resources import PacienteResource, DoctorResource, CitaResource
 
 #admin.site.register(Cita)
 
@@ -15,19 +15,22 @@ admin.site.site_header="Clinica Admin"
 admin.site.site_title="Clinica Admin Portal"
 admin.site.index_title="Bienvenido a la Clinica"
 
-class DoctoresClinica(admin.ModelAdmin): 
+class DoctoresClinica(ImportExportModelAdmin): 
+    resource_class = DoctorResource
     list_display=["cedula_doctor","nombre_doc","especialidad","telefono_doc", "turno", "correo_doc"]
     search_fields = ["cedula_doctor", "nombre_doc"]
     list_filter = ["especialidad"]
 admin.site.register(Doctor, DoctoresClinica)
  
-class PacientesClinica(admin.ModelAdmin): 
-    list_display=["folio_paciente","nombre_paciente","telefono_paciente", "correo_paciente","adeudo"]
+class PacientesClinica(ImportExportModelAdmin):
+    resource_class = PacienteResource
+    list_display = ["folio_paciente", "nombre_paciente", "telefono_paciente", "correo_paciente", "adeudo"]
     search_fields = ["folio_paciente", "nombre_paciente"]
     list_filter = ["adeudo"]
 admin.site.register(Paciente, PacientesClinica)
 
-class CitasClinica(admin.ModelAdmin): 
+class CitasClinica(ImportExportModelAdmin): 
+    resource_class = CitaResource
     form = CitaAdminForm 
     list_display=["num_cita","cedula_doctor","folio_paciente","costo","fecha","hora"]
     search_fields = ["num_cita", "folio_paciente__nombre_paciente"]
@@ -47,6 +50,7 @@ class HistorialCitasAdmin(admin.ModelAdmin):
     search_fields = ["cedula_doctor__nombre_doc", "folio_paciente__nombre_paciente", "accion"]
     readonly_fields = ["id", "created_at"]  # No editable, ya que se llenan automáticamente
 admin.site.register(HistorialCitas, HistorialCitasAdmin)
+
 
 
 
