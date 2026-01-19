@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.db import transaction
-import datetime
-import subprocess
 from django.contrib import messages
 from .forms import CitaAdminForm
 from clinica.models import Doctor, Paciente, Cita, HistorialCitas
 from import_export.admin import ImportExportModelAdmin
 from .resources import PacienteResource, DoctorResource, CitaResource
+from .views import reporte_ingresos_doctor
+from django.urls import path
 
 #admin.site.register(Cita)
 
@@ -50,7 +50,6 @@ class HistorialCitasAdmin(admin.ModelAdmin):
     search_fields = ["cedula_doctor__nombre_doc", "folio_paciente__nombre_paciente", "accion"]
     readonly_fields = ["id", "created_at"]  # No editable, ya que se llenan automáticamente
 admin.site.register(HistorialCitas, HistorialCitasAdmin)
-
 
 
 

@@ -40,6 +40,6 @@ class CitaResource(resources.ModelResource):
             'hora',
         )
         export_order = fields
-        import_id_fields = ['num_cita']
-        
+        import_id_fields = ['num_cita', 'cedula_doctor_id', 'folio_paciente_id']
+
 

@@ -10,7 +10,7 @@ urlpatterns = [
     path('pacientes/crear/', views.crear, name='crear'),
     path('pacientes/editar/', views.editar, name='editar'),
     path('eliminar/<int:folio_paciente>/', views.eliminar, name='eliminar'),
-    #linea nueva para editar con folio, sin coma
+    #linea nueva para editar con folio
     path('pacientes/editar/<int:folio_paciente>/', views.editar, name='editar'),
     path('doctores/', views.doctores, name='doctores'),
     path('citas/', views.citas, name='citas'),
@@ -21,4 +21,6 @@ urlpatterns = [
    # path("admin/", admin.site.urls),            # admin normal
     path("respaldos/", views.respaldos_view, name="respaldos"), #urls para respaldos
     path("hacer_respaldo/", views.hacer_respaldo, name="hacer_respaldo"),
+    path('reporte_ingresos/', views.reporte_ingresos_doctor, name='reporte_ingresos'),
+    path("horarios/", views.horarios_disponibles, name="horarios"),
 ]

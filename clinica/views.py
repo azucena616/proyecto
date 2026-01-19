@@ -6,6 +6,8 @@ from django.db import transaction
 from django.contrib import messages
 import subprocess, datetime
 from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render
+from django.db import connection
 
 def inicio(request):
     return render(request, 'paginas/inicio.html')
@@ -71,7 +73,7 @@ def crear_cita(request):
             messages.error(request, "El doctor ya tiene una cita en ese horario")
             return redirect("citas")   #agregr la url de citas
 
-        # Crear la cita si no existe conflicto
+        #crear la cita si no existe
         Cita.objects.create(
             cedula_doctor_id=doctor,
             folio_paciente_id=paciente,
@@ -95,6 +97,7 @@ def editar_cita(request):
 def respaldos_view(request):
     return render(request, "admin/respaldos.html")
 
+#respaldos
 @staff_member_required
 def hacer_respaldo(request):
     fecha = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -111,3 +114,49 @@ def hacer_respaldo(request):
         subprocess.run(cmd, stdout=f)
 
     return HttpResponse(f"Respaldo generado: {archivo}")
+
+
+def reporte_ingresos_doctor(request):
+    datos = None
+
+    with connection.cursor() as cursor:
+        cursor.callproc("ingresos_mes_actual")
+        resultados = cursor.fetchall()
+
+    datos = []
+    for fila in resultados:
+        datos.append({
+            "cedula": fila[0],
+            "doctor": fila[1],
+            "ingresos": fila[2],
+            "total_citas": fila[3],
+        })
+
+    return render(request, "admin/reportes_doctor.html", {"datos": datos})
+
+#vista para mostras horarios disponibles
+def horarios_disponibles(request):
+    datos = None
+    doctores = None
+    # Obtener la lista de doctores
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT cedula_doctor, nombre_doc FROM clinica_doctor")
+        doctores = cursor.fetchall()
+
+    if request.method == "POST":
+        cedula = request.POST.get("doctor")
+
+        with connection.cursor() as cursor:
+            cursor.callproc("horas_disponibles_doctor", [cedula])
+            resultados = cursor.fetchall()
+
+        datos = []
+        for fila in resultados:
+            datos.append({
+                "hora": fila[0],
+            })
+
+    return render(request, "admin/horarios.html", {
+        "doctores": doctores,
+        "datos": datos,
+    })
